@@ -21,7 +21,7 @@ public class DataInitializer {
             User user1 = new User();
             user1.setEmail("rabina@example.com");
             user1.setPassword("rabina");
-            user1.setRole("Admin");
+            user1.setRole("ADMIN");
             user1.setFirstName("Rabina");
             user1.setLastName("Abdrakhmanova");
             user1.setPosition("Administrator");
@@ -30,7 +30,7 @@ public class DataInitializer {
             User user2 = new User();
             user2.setEmail("worker@example.com");
             user2.setPassword("worker");
-            user2.setRole("User");
+            user2.setRole("USER");
             user2.setFirstName("Jane");
             user2.setLastName("Doe");
             user2.setPosition("Ranger");
