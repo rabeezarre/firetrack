@@ -19,6 +19,13 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("com.h2database:h2")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
+//	testImplementation("org.springframework.boot:spring-boot-starter-test")
+//	implementation("org.springframework.boot:spring-boot-starter-security")
+//	testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<Test> {
