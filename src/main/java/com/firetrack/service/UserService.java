@@ -1,6 +1,7 @@
 package com.firetrack.service;
 
 import com.firetrack.entity.User;
+import com.firetrack.exception.UserAlreadyExistsException;
 import com.firetrack.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ public class UserService {
     }
 
     public User registerUser(User user) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new UserAlreadyExistsException("A user with this email already exists");
+        }
         return userRepository.save(user);
     }
 

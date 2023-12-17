@@ -1,6 +1,7 @@
 package com.firetrack.controller;
 
 import com.firetrack.entity.User;
+import com.firetrack.exception.UserAlreadyExistsException;
 import com.firetrack.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +19,20 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User credentials) {
         Optional<User> user = userService.validateCredentials(credentials.getEmail(), credentials.getPassword());
-        if (user.isPresent()) {
-            return ResponseEntity.ok("User authenticated successfully. User ID: " + user.get().getUserId());
-        } else {
-            return ResponseEntity.status(401).body("Invalid credentials");
-        }
+        return user.map(u -> ResponseEntity.ok("User authenticated successfully. User ID: " + u.getUserId()))
+                .orElseGet(() -> ResponseEntity.status(401).body("Invalid credentials"));
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
-        User registeredUser = userService.registerUser(user);
-        return ResponseEntity.ok("User registered successfully with ID: " + registeredUser.getUserId());
+        try {
+            User registeredUser = userService.registerUser(user);
+            return ResponseEntity.status(201).body("User registered successfully with ID: " + registeredUser.getUserId());
+        } catch (UserAlreadyExistsException e) {
+            return ResponseEntity.status(409).body("Error: User with given email already exists.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Internal Server Error: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{userId}")
