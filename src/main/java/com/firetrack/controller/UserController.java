@@ -18,20 +18,23 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User credentials) {
-        Optional<User> user = userService.validateCredentials(credentials.getEmail(), credentials.getPassword());
-        return user.map(u -> ResponseEntity.ok("User authenticated successfully. User ID: " + u.getUserId()))
-                .orElseGet(() -> ResponseEntity.status(401).body("Invalid credentials"));
+        try {
+            Optional<User> user = userService.validateCredentials(credentials.getEmail(), credentials.getPassword());
+            return ResponseEntity.status(201).body(user);  // ResponseEntity<User>
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Invalid credentials");  // ResponseEntity<String>
+        }
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         try {
             User registeredUser = userService.registerUser(user);
-            return ResponseEntity.status(201).body("User registered successfully with ID: " + registeredUser.getUserId());
+            return ResponseEntity.status(201).body(registeredUser);  // ResponseEntity<User>
         } catch (UserAlreadyExistsException e) {
-            return ResponseEntity.status(409).body("Error: User with given email already exists.");
+            return ResponseEntity.status(409).body("Error: User with given email already exists.");  // ResponseEntity<String>
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Internal Server Error: " + e.getMessage());
+            return ResponseEntity.status(500).body("Internal Server Error: " + e.getMessage());  // ResponseEntity<String>
         }
     }
 
@@ -42,18 +45,22 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User user) {
-        User updatedUser = userService.updateUser(userId, user);
-        if (updatedUser != null) {
-            return ResponseEntity.ok(updatedUser);
-        } else {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User userUpdates) {
+        try {
+            User updatedUser = userService.updateUser(userId, userUpdates);
+            return ResponseEntity.ok(updatedUser);  // Return the updated user object
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("User not found");
         }
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
-        userService.deleteUser(userId);
-        return ResponseEntity.ok("User deleted successfully");
+        try {
+            userService.deleteUser(userId);
+            return ResponseEntity.ok("User deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("User not found");
+        }
     }
 }
