@@ -15,7 +15,8 @@ public class DataInitializer {
     CommandLineRunner initData(UserRepository userRepository,
                                TrackingPointRepository trackingPointRepository,
                                SensorDataRepository sensorDataRepository,
-                               AlertRepository alertRepository) {
+                               AlertRepository alertRepository,
+                               ScanningHistoryRepository scanningHistoryRepository) {
         return args -> {
             // Create and save users
             User user1 = new User();
@@ -40,43 +41,48 @@ public class DataInitializer {
             TrackingPoint trackingPoint1 = new TrackingPoint();
             trackingPoint1.setLatitude(10.0);
             trackingPoint1.setLongitude(20.0);
-            trackingPoint1.setLastCheckedTime(LocalDateTime.now());
-            trackingPoint1.setStatus("Alert");
-            trackingPoint1.setUser(userRepository.findById(2L).orElse(null));
+//            trackingPoint1.setLastCheckedTime(LocalDateTime.now());
+            trackingPoint1.setStatus("Active");
+//            trackingPoint1.setUser(userRepository.findById(2L).orElse(null));
             trackingPointRepository.save(trackingPoint1);
 
             TrackingPoint trackingPoint2 = new TrackingPoint();
             trackingPoint2.setLatitude(14.0);
             trackingPoint2.setLongitude(29.0);
-            trackingPoint2.setLastCheckedTime(LocalDateTime.now());
-            trackingPoint2.setStatus("Unchecked");
-            trackingPoint2.setUser(userRepository.findById(2L).orElse(null));
+//            trackingPoint2.setLastCheckedTime(LocalDateTime.now());
+            trackingPoint2.setStatus("Active");
+//            trackingPoint2.setUser(userRepository.findById(2L).orElse(null));
             trackingPointRepository.save(trackingPoint2);
 
             TrackingPoint trackingPoint3 = new TrackingPoint();
             trackingPoint3.setLatitude(9.0);
             trackingPoint3.setLongitude(10.0);
-            trackingPoint3.setLastCheckedTime(LocalDateTime.now());
-            trackingPoint3.setStatus("Unchecked");
-            trackingPoint3.setUser(userRepository.findById(2L).orElse(null));
+//            trackingPoint3.setLastCheckedTime(LocalDateTime.now());
+            trackingPoint3.setStatus("Active");
+//            trackingPoint3.setUser(userRepository.findById(2L).orElse(null));
             trackingPointRepository.save(trackingPoint3);
 
             TrackingPoint trackingPoint4 = new TrackingPoint();
             trackingPoint4.setLatitude(14.0);
             trackingPoint4.setLongitude(20.0);
-            trackingPoint4.setLastCheckedTime(LocalDateTime.now());
-            trackingPoint4.setStatus("Checked");
-            trackingPoint4.setUser(userRepository.findById(2L).orElse(null));
+//            trackingPoint4.setLastCheckedTime(LocalDateTime.now());
+            trackingPoint4.setStatus("Active");
+//            trackingPoint4.setUser(userRepository.findById(2L).orElse(null));
             trackingPointRepository.save(trackingPoint4);
 
             TrackingPoint trackingPoint5 = new TrackingPoint();
             trackingPoint5.setLatitude(16.0);
             trackingPoint5.setLongitude(22.0);
-            trackingPoint5.setLastCheckedTime(LocalDateTime.now());
-            trackingPoint5.setStatus("Checked");
-            trackingPoint5.setUser(userRepository.findById(2L).orElse(null));
+//            trackingPoint5.setLastCheckedTime(LocalDateTime.now());
+            trackingPoint5.setStatus("Inactive");
+//            trackingPoint5.setUser(userRepository.findById(2L).orElse(null));
             trackingPointRepository.save(trackingPoint5);
 
+            ScanningHistory scanningHistory = new ScanningHistory();
+            scanningHistory.setTimestamp(LocalDateTime.now());
+            scanningHistory.setPointId(1L);
+            scanningHistory.setUserId(2L);
+            scanningHistoryRepository.save(scanningHistory);
 
             // Create and save sensor data
             for (int i = 1; i <= 5; i++) {
@@ -96,14 +102,14 @@ public class DataInitializer {
 
             // Create and save alerts
             Alert alert = new Alert();
-            alert.setTrackingPoint(trackingPointRepository.findById(1L).orElse(null));
+            alert.setPointId(2L);
             alert.setAlertType("Hight Risk");
             alert.setTimestamp(LocalDateTime.now());
             alert.setStatus("Active");
             alertRepository.save(alert);
 
             Alert alert2 = new Alert();
-            alert2.setTrackingPoint(trackingPointRepository.findById(2L).orElse(null));
+            alert2.setPointId(1L);
             alert2.setAlertType("Fire");
             alert2.setTimestamp(LocalDateTime.now());
             alert2.setStatus("Resolved");
