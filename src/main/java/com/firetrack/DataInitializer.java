@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 
 @Configuration
 public class DataInitializer {
@@ -87,7 +88,7 @@ public class DataInitializer {
             // Create and save sensor data
             for (int i = 1; i <= 5; i++) {
                 SensorData sensorData = new SensorData();
-                sensorData.setTrackingPoint(trackingPointRepository.findById(Integer.toUnsignedLong(i)).orElse(null));
+                sensorData.setPointId(new long[]{1L, 2L, 3L, 4L, 5L}[new Random().nextInt(5)]);
                 sensorData.setTimestamp(LocalDateTime.now());
                 sensorData.setTemperature(25.0 + i);
                 sensorData.setAltitude(25.0 + i);

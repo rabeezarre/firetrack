@@ -10,11 +10,7 @@ public class SensorData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long dataId;
-
-    @ManyToOne
-    @JoinColumn(name = "pointId", referencedColumnName = "pointId")
-    private TrackingPoint trackingPoint;
-
+    private Long pointId;
     private LocalDateTime timestamp;
     private Double temperature;
     private Double humidity;
@@ -27,9 +23,9 @@ public class SensorData {
     // Constructors
     public SensorData() {}
 
-    public SensorData(Long dataId, TrackingPoint trackingPoint, LocalDateTime timestamp, Double temperature, Double humidity, Double pressure, Double altitude, Double magnetometer, Double sound, String colour) {
+    public SensorData(Long dataId, Long pointId, LocalDateTime timestamp, Double temperature, Double humidity, Double pressure, Double altitude, Double magnetometer, Double sound, String colour) {
         this.dataId = dataId;
-        this.trackingPoint = trackingPoint;
+        this.pointId = pointId;
         this.timestamp = timestamp;
         this.temperature = temperature;
         this.humidity = humidity;
@@ -44,8 +40,8 @@ public class SensorData {
     public Long getDataId() { return dataId; }
     public void setDataId(Long dataId) { this.dataId = dataId; }
 
-    public TrackingPoint getTrackingPoint() { return trackingPoint; }
-    public void setTrackingPoint(TrackingPoint trackingPoint) { this.trackingPoint = trackingPoint; }
+    public Long getPointId() { return pointId; }
+    public void setPointId(Long pointId) { this.pointId = pointId; }
 
     public LocalDateTime getTimestamp() { return timestamp; }
     public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
