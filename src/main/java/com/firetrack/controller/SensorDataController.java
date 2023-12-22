@@ -17,7 +17,7 @@ public class SensorDataController {
 
     @GetMapping("/{pointId}")
     public ResponseEntity<List<SensorData>> getSensorDataByPoint(@PathVariable Long pointId) {
-        List<SensorData> sensorDataList = sensorDataService.getSensorDataByTrackingPoint(pointId);
+        List<SensorData> sensorDataList = sensorDataService.getSensorDataByPointId(pointId);
         return ResponseEntity.ok(sensorDataList);
     }
 

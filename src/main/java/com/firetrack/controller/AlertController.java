@@ -21,9 +21,30 @@ public class AlertController {
         return ResponseEntity.ok(alerts);
     }
 
+    @PostMapping
+    public ResponseEntity<Alert> createAlert(@RequestBody Alert alert) {
+        Alert newAlert = alertService.createAlert(alert);
+        return ResponseEntity.ok(newAlert);
+    }
+
     @PutMapping("/{alertId}")
     public ResponseEntity<Alert> updateAlertStatus(@PathVariable Long alertId, @RequestBody Alert alert) {
         Alert updatedAlert = alertService.updateAlertStatus(alertId, alert);
         return ResponseEntity.ok(updatedAlert);
+    }
+
+    @GetMapping("/trackingPoint/{pointId}")
+    public ResponseEntity<List<Alert>> getAlertsByTrackingPoint(@PathVariable Long pointId) {
+        List<Alert> alerts = alertService.getAlertsByTrackingPoint(pointId);
+        if (alerts.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(alerts);
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<Boolean> checkActiveAlerts() {
+        boolean hasActiveAlerts = alertService.hasActiveAlerts();
+        return ResponseEntity.ok(hasActiveAlerts);
     }
 }

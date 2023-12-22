@@ -16,6 +16,10 @@ public class AlertService {
         return alertRepository.findAll();
     }
 
+    public Alert createAlert(Alert alert) {
+        return alertRepository.save(alert);
+    }
+
     public Alert updateAlertStatus(Long alertId, Alert alertDetails) {
         return alertRepository.findById(alertId).map(alert -> {
             alert.setStatus(alertDetails.getStatus());
@@ -25,5 +29,14 @@ public class AlertService {
             alertDetails.setAlertId(alertId);
             return alertRepository.save(alertDetails);
         });
+    }
+
+    public List<Alert> getAlertsByTrackingPoint(Long pointId) {
+        return alertRepository.findByPointId(pointId);
+    }
+
+    public boolean hasActiveAlerts() {
+        List<Alert> activeAlerts = alertRepository.findByStatus("active"); // Assuming "active" is the status for active alerts
+        return !activeAlerts.isEmpty();
     }
 }

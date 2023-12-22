@@ -10,11 +10,7 @@ public class Alert {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long alertId;
-
-    @ManyToOne
-    @JoinColumn(name = "pointId", referencedColumnName = "pointId")
-    private TrackingPoint trackingPoint;
-
+    private Long pointId;
     private String alertType;
     private LocalDateTime timestamp;
     private String status;
@@ -22,9 +18,9 @@ public class Alert {
     // Constructors
     public Alert() {}
 
-    public Alert(Long alertId, TrackingPoint trackingPoint, String alertType, LocalDateTime timestamp, String status) {
+    public Alert(Long alertId, Long pointId, String alertType, LocalDateTime timestamp, String status) {
         this.alertId = alertId;
-        this.trackingPoint = trackingPoint;
+        this.pointId = pointId;
         this.alertType = alertType;
         this.timestamp = timestamp;
         this.status = status;
@@ -34,8 +30,8 @@ public class Alert {
     public Long getAlertId() { return alertId; }
     public void setAlertId(Long alertId) { this.alertId = alertId; }
 
-    public TrackingPoint getTrackingPoint() { return trackingPoint; }
-    public void setTrackingPoint(TrackingPoint trackingPoint) { this.trackingPoint = trackingPoint; }
+    public Long getPointId() { return pointId; }
+    public void setPointId(Long pointId) { this.pointId = pointId; }
 
     public String getAlertType() { return alertType; }
     public void setAlertType(String alertType) { this.alertType = alertType; }

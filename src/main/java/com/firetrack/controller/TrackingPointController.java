@@ -17,13 +17,35 @@ public class TrackingPointController {
 
     @GetMapping
     public ResponseEntity<List<TrackingPoint>> getAllTrackingPoints() {
-        List<TrackingPoint> trackingPoints = trackingPointService.getAllTrackingPoints();
-        return ResponseEntity.ok(trackingPoints);
+        return ResponseEntity.ok(trackingPointService.getAllTrackingPoints());
+    }
+
+    @GetMapping("/{pointId}")
+    public ResponseEntity<TrackingPoint> getTrackingPointById(@PathVariable Long pointId) {
+        TrackingPoint trackingPoint = trackingPointService.getTrackingPointById(pointId);
+        if (trackingPoint == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(trackingPoint);
+    }
+
+    @PostMapping
+    public ResponseEntity<TrackingPoint> createTrackingPoint(@RequestBody TrackingPoint trackingPoint) {
+        return ResponseEntity.ok(trackingPointService.saveTrackingPoint(trackingPoint));
+    }
+
+    @DeleteMapping("/{pointId}")
+    public ResponseEntity<Void> deleteTrackingPoint(@PathVariable Long pointId) {
+        trackingPointService.deleteTrackingPoint(pointId);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{pointId}")
     public ResponseEntity<TrackingPoint> updateTrackingPoint(@PathVariable Long pointId, @RequestBody TrackingPoint trackingPoint) {
         TrackingPoint updatedTrackingPoint = trackingPointService.updateTrackingPoint(pointId, trackingPoint);
+        if (updatedTrackingPoint == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(updatedTrackingPoint);
     }
 }
