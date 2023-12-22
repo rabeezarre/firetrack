@@ -15,6 +15,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public Optional<User> validateCredentials(String email, String password) {
+        password = new BCryptPasswordEncoder().encode(password);
         return userRepository.findByEmailAndPassword(email, password);
     }
 
