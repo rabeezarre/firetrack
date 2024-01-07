@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.Random;
@@ -18,12 +19,13 @@ public class DataInitializer {
                                TrackingPointRepository trackingPointRepository,
                                SensorDataRepository sensorDataRepository,
                                AlertRepository alertRepository,
-                               ScanningHistoryRepository scanningHistoryRepository) {
+                               ScanningHistoryRepository scanningHistoryRepository,
+                               PasswordEncoder passwordEncoder) {
         return args -> {
             // Create and save users
             User user1 = new User();
             user1.setEmail("rabina@example.com");
-            user1.setPassword(new BCryptPasswordEncoder().encode("rabina"));
+            user1.setPassword(passwordEncoder.encode("rabina"));
             user1.setRole("ROLE_ADMIN");
             user1.setFirstName("Rabina");
             user1.setLastName("Abdrakhmanova");
@@ -32,7 +34,7 @@ public class DataInitializer {
 
             User user2 = new User();
             user2.setEmail("worker@example.com");
-            user2.setPassword(new BCryptPasswordEncoder().encode("worker"));
+            user2.setPassword(passwordEncoder.encode("worker"));
             user2.setRole("ROLE_USER");
             user2.setFirstName("Jane");
             user2.setLastName("Doe");

@@ -5,6 +5,7 @@ import com.firetrack.exception.UserAlreadyExistsException;
 import com.firetrack.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -14,8 +15,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public Optional<User> validateCredentials(String email, String password) {
-        password = new BCryptPasswordEncoder().encode(password);
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public User validateCredentials(String email, String password) {
+        System.out.println(email + " " + password);
         return userRepository.findByEmailAndPassword(email, password);
     }
 
@@ -24,7 +28,7 @@ public class UserService {
             throw new UserAlreadyExistsException("A user with this email already exists");
         }
 
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 

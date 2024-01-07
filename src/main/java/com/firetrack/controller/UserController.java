@@ -2,10 +2,13 @@ package com.firetrack.controller;
 
 import com.firetrack.entity.User;
 import com.firetrack.exception.UserAlreadyExistsException;
+import com.firetrack.repository.UserRepository;
 import com.firetrack.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -17,11 +20,25 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User credentials) {
         try {
-            Optional<User> user = userService.validateCredentials(credentials.getEmail(), credentials.getPassword());
-            return ResponseEntity.status(201).body(user);  // ResponseEntity<User>
+            User user = userRepository.findByEmail(credentials.getEmail());
+//            credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
+//            User user = userService.validateCredentials(credentials.getEmail(), credentials.getPassword());
+//            System.out.println(user);
+            if (passwordEncoder.matches(user.getPassword(), passwordEncoder.encode(credentials.getPassword()))) {
+                return ResponseEntity.status(201).body(user);
+            } else {
+                throw new UsernameNotFoundException("Null user");
+            }
+//            return ResponseEntity.status(201).body("user");  // ResponseEntity<User>
         } catch (Exception e) {
             return ResponseEntity.status(401).body("Invalid credentials");  // ResponseEntity<String>
         }

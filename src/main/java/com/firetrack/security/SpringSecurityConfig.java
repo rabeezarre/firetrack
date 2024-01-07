@@ -26,7 +26,7 @@ public class SpringSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2A);
     }
 
     @Bean
@@ -34,8 +34,9 @@ public class SpringSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api/**")).hasRole(ROLE_USER)
-                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api/admin/**")).hasRole(ROLE_ADMIN)
+//                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api/login")).permitAll()
+//                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api/**")).hasRole(ROLE_USER)
+//                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api/admin/**")).hasRole(ROLE_ADMIN)
                         .anyRequest().permitAll()
                 )
                 .formLogin(withDefaults())
