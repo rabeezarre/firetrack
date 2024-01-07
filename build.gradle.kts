@@ -27,7 +27,7 @@ dependencies {
 //	implementation("org.springframework.boot:spring-boot-starter-security")
 //	testImplementation("org.springframework.security:spring-security-test")
 	implementation ("org.springdoc:springdoc-openapi-ui:1.6.4")
-
+	implementation ("org.apache.logging.log4j:log4j-to-slf4j")
 }
 
 tasks.withType<Test> {
