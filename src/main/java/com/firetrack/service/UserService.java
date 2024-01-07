@@ -13,14 +13,16 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public Optional<User> validateCredentials(String email, String password) {
+    public User validateCredentials(String email, String password) {
+        System.out.println(email + " " + password);
         return userRepository.findByEmailAndPassword(email, password);
     }
 
     public User registerUser(User user) {
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new UserAlreadyExistsException("A user with this email already exists");
         }
+
         return userRepository.save(user);
     }
 
