@@ -26,7 +26,7 @@ public class SpringSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2A);
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
