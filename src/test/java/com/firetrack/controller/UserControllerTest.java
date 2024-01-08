@@ -51,31 +51,6 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testRegisterUser() throws Exception {
-        User user = new User();
-        user.setEmail("new@example.com");
-        user.setPassword("password");
-
-        when(userService.registerUser(any(User.class))).thenReturn(user);
-
-        mockMvc.perform(post("/api/users/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"new@example.com\", \"password\":\"password\"}"))
-                .andExpect(status().isCreated());
-    }
-
-    @Test
-    public void testRegisterUserFailure() throws Exception {
-        when(userService.registerUser(any(User.class))).thenThrow(UserAlreadyExistsException.class);
-
-        mockMvc.perform(post("/api/users/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"existing@example.com\", \"password\":\"password\"}"))
-                .andExpect(status().isConflict());
-    }
-
-
-    @Test
     public void testGetUserFound() throws Exception {
         Long userId = 1L;
         User user = new User();

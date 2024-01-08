@@ -2,6 +2,8 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.2.0"
 	id("io.spring.dependency-management") version "1.1.4"
+	id("checkstyle")
+	id("net.ltgt.errorprone") version "3.1.0"
 }
 
 group = "com"
@@ -27,8 +29,14 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	testImplementation("org.springframework.security:spring-security-test")
 	implementation ("org.springdoc:springdoc-openapi-ui:1.6.4")
+	errorprone("com.google.errorprone:error_prone_core:2.24.1")
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+checkstyle {
+	toolVersion = "10.12.7"
+	configFile = file("config/checkstyle/checkstyle.xml")
 }

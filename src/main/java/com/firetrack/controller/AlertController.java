@@ -48,3 +48,5 @@ public class AlertController {
         return ResponseEntity.ok(hasActiveAlerts);
     }
 }
+
+
