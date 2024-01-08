@@ -1,3 +1,7 @@
+/**
+ * This package contains controller classes responsible for managing user-related operations.
+ * Controllers handle incoming HTTP requests and interact with the corresponding service methods.
+ */
 package com.firetrack.controller;
 
 import com.firetrack.dto.UserDTO;
@@ -12,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * Controller class for managing user operations.
+ */
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -25,6 +32,12 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Authenticates a user and returns a UserDTO upon successful login.
+     *
+     * @param credentials The User object containing login credentials.
+     * @return A ResponseEntity containing the UserDTO if authentication is successful, or an error response if not.
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User credentials) {
         User existingUser = userRepository.findByEmail(credentials.getEmail());
@@ -40,6 +53,15 @@ public class UserController {
         }
     }
 
+    // ... (Continued)
+    // Include Javadoc comments for other methods as well
+
+    /**
+     * Converts a User object to a UserDTO object for response purposes.
+     *
+     * @param user The User object to be converted.
+     * @return A UserDTO object containing selected user information.
+     */
     private UserDTO convertToDTO(User user) {
         UserDTO dto = new UserDTO();
         dto.setUserId(user.getUserId());
@@ -51,6 +73,13 @@ public class UserController {
         return dto;
     }
 
+    /**
+     * Registers a new user.
+     *
+     * @param user The User object representing the user to be registered.
+     * @return A ResponseEntity containing the newly registered UserDTO if successful,
+     *         or an error response if the user already exists or an internal server error occurs.
+     */
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -66,6 +95,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Retrieves a user by their user ID.
+     *
+     * @param userId The ID of the user to retrieve.
+     * @return A ResponseEntity containing the UserDTO if the user is found, or a not found response if not found.
+     */
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUser(@PathVariable Long userId) {
         Optional<User> user = userService.getUserById(userId);
@@ -73,6 +108,14 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /**
+     * Updates a user's information by their user ID.
+     *
+     * @param userId       The ID of the user to update.
+     * @param userUpdates  The User object containing the updated user information.
+     * @return A ResponseEntity containing the updated UserDTO if the user is found and updated successfully,
+     *         or a not found response if not found, or an error response if an internal server error occurs.
+     */
     @PutMapping("/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User userUpdates) {
         try {
@@ -84,6 +127,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Deletes a user by their user ID.
+     *
+     * @param userId The ID of the user to delete.
+     * @return A ResponseEntity indicating success if the user is deleted successfully, or an error response if not found.
+     */
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
         try {
