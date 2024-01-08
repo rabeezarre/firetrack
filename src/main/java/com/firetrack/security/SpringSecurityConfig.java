@@ -34,7 +34,10 @@ public class SpringSecurityConfig {
 //                        .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).hasAnyRole(ROLE_ADMIN)
                         .anyRequest().permitAll()
                 )
-                .formLogin(withDefaults())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll()
+                )
                 .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
