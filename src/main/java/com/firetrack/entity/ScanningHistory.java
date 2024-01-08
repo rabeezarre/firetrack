@@ -11,9 +11,9 @@ public class ScanningHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long historyId;
 
-    private Long pointId; // Changed from TrackingPoint object to Long
+    private Long pointId;
 
-    private Long userId; // Assuming this was already changed to Long
+    private Long userId;
 
     private LocalDateTime timestamp;
 
