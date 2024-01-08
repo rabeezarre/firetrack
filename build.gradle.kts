@@ -36,7 +36,16 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
+tasks.javadoc {
+	source = sourceSets["main"].allJava
+	classpath = configurations["compileClasspath"]
+}
+
+
+
+
 checkstyle {
 	toolVersion = "10.12.7"
 	configFile = file("config/checkstyle/checkstyle.xml")
 }
+
