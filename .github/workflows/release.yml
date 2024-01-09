@@ -10,23 +10,28 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
       - uses: actions/checkout@v2
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0'  # Adjust the Ruby version as necessary
-
-      - name: Install Changelog Generator and Dependencies
-        run: |
-          gem install github_changelog_generator
-          gem install faraday-retry  # If using Faraday v2.0+
+          ruby-version: '3.0'
+          bundler-cache: true
 
       - name: Generate Changelog
         run: github_changelog_generator --user ${{ github.repository_owner }} --project ${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit Changelog
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add CHANGELOG.md
+          git commit -m "Update CHANGELOG.md"
+          git push
 
       - name: Set up JDK 17
         uses: actions/setup-java@v2
@@ -47,9 +52,6 @@ jobs:
           release_name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
-
-      - name: List contents of the artifact directory
-        run: ls -l ./build/libs/
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
