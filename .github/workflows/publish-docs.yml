@@ -16,7 +16,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
-          java-version: '17' # Update to your JDK version
+          java-version: '17'
           distribution: 'temurin'
 
       - name: Generate Javadoc
@@ -28,7 +28,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.PERSONAL_TOKEN }} # Use the PAT here
+          github_token: ${{ secrets.PERSONAL_TOKEN }}
           publish_dir: ./build/docs/javadoc
           destination_dir: .
           keep_files: true
