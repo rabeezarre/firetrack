@@ -1,10 +1,10 @@
-name: Java CI with Gradle on Actions Branch
+name: Java CI with Gradle on Main Branch
 
 on:
   push:
-    branches: [ actions ]
+    branches: [ main ]
   pull_request:
-    branches: [ actions ]
+    branches: [ main ]
 
 jobs:
   build:
