@@ -31,8 +31,8 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Artifacts
+      - name: Upload build folder as an artifact
         uses: actions/upload-artifact@v2
         with:
-          name: my-artifact
-          path: build
+          name: build-artifact
+          path: build/
