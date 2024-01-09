@@ -12,6 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set up JDK (or your environment)
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+
       - name: Run tests
         run: ./gradlew test
 
@@ -25,3 +30,9 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: build
