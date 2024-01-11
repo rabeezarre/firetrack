@@ -5,7 +5,6 @@ import com.firetrack.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
@@ -91,18 +90,18 @@ public class DataInitializer {
             scanningHistoryRepository.save(scanningHistory3);
 
             // Create and save sensor data
-            for (int i = 1; i <= 5; i++) {
+            for (int i = 1; i <= 20; i++) {
                 SensorData sensorData = new SensorData();
+                sensorData.setDataId((long) i); // Use a unique dataId for each sensor data
                 sensorData.setPointId(new long[]{1L, 2L, 3L, 4L, 5L}[new Random().nextInt(5)]);
-                sensorData.setTimestamp(LocalDateTime.now());
-                sensorData.setTemperature(25.0 + i);
-                sensorData.setAltitude(25.0 + i);
-                sensorData.setColour("Color" + i);
-                sensorData.setSound(25.0 + i);
-                sensorData.setMagnetometer(25.0 + i);
-                sensorData.setTemperature(25.0 + i);
-                sensorData.setHumidity(50.0 + i);
-                sensorData.setPressure(1000.0 + i);
+                sensorData.setTimestamp(LocalDateTime.parse("2024-01-11T09:42:14.891281"));
+                sensorData.setTemperature(24.909);
+                sensorData.setHumidity(37.2595);
+                sensorData.setPressure(957.304);
+                sensorData.setAltitude(476.983);
+                sensorData.setMagnetometer(13.6364);
+                sensorData.setSound(12.0);
+                sensorData.setColour("Red: 643, Green: 462, Blue: 368, Clear: 1423");
                 sensorDataRepository.save(sensorData);
             }
 
